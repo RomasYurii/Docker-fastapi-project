@@ -1,11 +1,31 @@
 version: '3.8'
 
 services:
+  # 1. Наша програма (FastAPI)
+  app:
+    build: .  # Будуємо з папки, де лежить цей файл
+    container_name: task_api_app
+    ports:
+      - "8000:8000"  # Відкриваємо порт назовні
+    depends_on:
+      - db  # Чекаємо, поки запуститься база
+    environment:
+      # Перевизначаємо хост!
+      # Всередині Докера база доступна не як 'localhost', а як ім'я сервісу -> 'db'
+      DB_HOST: db
+      DB_PORT: 5432 # Внутрішній порт бази завжди 5432
+      # Решту беремо з файлу .env
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    # Команда запуску (дублюємо тут про всяк випадок, хоча є в Dockerfile)
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # 2. База Даних (без змін)
   db:
     image: postgres:15
     container_name: my_python_db
     ports:
-      # Зліва - змінна з .env (5433), справа - стандартний порт (5432)
       - "${DB_PORT}:5432"
     environment:
       POSTGRES_USER: ${DB_USER}
@@ -15,6 +35,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: always
 
+  # 3. Адмінка (без змін)
   adminer:
     image: adminer
     ports:
