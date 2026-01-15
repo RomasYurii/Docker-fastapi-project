@@ -17,3 +17,4 @@ __pycache__/
 # Папки IDE
 .idea/
 .vscode/
+.env
