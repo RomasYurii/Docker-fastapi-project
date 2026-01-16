@@ -57,7 +57,7 @@ async def add_task(name: str, user_id: int):
         session.add(new_task)
         await session.commit()
         print(f"Додано: {name}")
-
+"""
 async def main():
     await init_db()
 
@@ -74,3 +74,4 @@ async def main():
 if __name__ == "__main__":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     asyncio.run(main())
+    """

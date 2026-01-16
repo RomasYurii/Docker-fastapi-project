@@ -12,7 +12,11 @@ class UserRead(UserBase):
     # Дозволяємо читати дані прямо з ORM об'єктів
     model_config = ConfigDict(from_attributes=True)
 
-
+class UserStats(BaseModel):
+    user_id: int
+    total_tasks: int
+    completed_tasks: int
+    completion_rate: float
 
 
 # --- TASKS ---
