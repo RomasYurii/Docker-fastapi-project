@@ -21,3 +21,8 @@
 1. Клонуйте репозиторій:
    ```bash
    git clone [https://github.com/RomasYurii/Docker-fastapi-project.git](https://github.com/RomasYurii/Docker-fastapi-project.git)
+2. Створіть файл .env (приклад у .env.example).
+3. Запустіть через Docker Compose:
+    ```bash
+     docker-compose up -d --build
+4. Документація доступна за адресою: http://localhost:8000/docs
