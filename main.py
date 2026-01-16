@@ -2,8 +2,9 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, func
 from relational_db import async_session, init_db, Task, User
-import schemas
-
+import schemas, os
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
 app = FastAPI(title="Task Queue API")
 
 
@@ -12,9 +13,19 @@ async def get_db():
         yield session
 
 
-@app.on_event("startup")
-async def on_startup():
-    await init_db()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Якщо змінна "TESTING" не встановлена, тоді підключаємось до бази
+    if os.getenv("TESTING") != "True":
+        await init_db()
+        print("🚀 База даних ініціалізована!")
+    else:
+        print("⚠️ Режим тестування: Пропускаємо підключення до Postgres")
+
+    yield
+
+    if os.getenv("TESTING") != "True":
+        print("🛑 Додаток зупинено")
 
 
 @app.post("/users/", response_model=schemas.UserRead)

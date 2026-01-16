@@ -14,8 +14,9 @@ jobs:
       DB_USER: user
       DB_PASSWORD: password
       DB_HOST: localhost
-      DB_PORT: 5432       # <--- Ось це число він шукав і не міг знайти!
+      DB_PORT: 5432
       DB_NAME: test_db
+      TESTING: "True"
 
     steps:
     # 1. Забираємо твій код
