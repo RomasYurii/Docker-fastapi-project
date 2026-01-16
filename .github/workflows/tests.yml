@@ -10,6 +10,13 @@ jobs:
   test:
     runs-on: ubuntu-latest # Беремо віртуальний Linux
 
+    env:
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_HOST: localhost
+      DB_PORT: 5432       # <--- Ось це число він шукав і не міг знайти!
+      DB_NAME: test_db
+
     steps:
     # 1. Забираємо твій код
     - name: Checkout code
